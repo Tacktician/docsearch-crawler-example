@@ -39,7 +39,7 @@ jobs:
           echo $CHROMEDRIVER_PATH
           chromedriver -v
       - name: Install Dependencies
-          run: |
+        run: |
             cd docsearch-scraper
             pipenv install
       - name: Update Algolia Search Index
