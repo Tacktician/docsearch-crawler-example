@@ -20,9 +20,9 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install pipenv
-      - name: Run Pipenv shell
-        run: |
-          pipenv shell
+#      - name: Run Pipenv shell
+#        run: |
+#          pipenv shell
       - name: Download Crawler Source Code
         run: |
           git clone https://github.com/algolia/docsearch-scraper.git
