@@ -51,4 +51,4 @@ jobs:
       - name: Run Algolia DocSearch
         run: |
           cd docsearch-scraper
-          pipenv run ./docsearch run config.json
+          pipenv run ./docsearch
