@@ -1,0 +1,48 @@
+name: Run Search Crawler
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 'master'
+jobs:
+  run-docsearch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
+      - name: Install pipenv and enable virtualenv
+        run: |
+          pip install pipenv
+          pipenv install --dev
+          pipenv shell
+      - name: Download Crawler Source Code
+        run: |
+          git clone https://github.com/algolia/docsearch-scraper.git
+          cp .docsearch/config.json docsearch-scraper
+      - name: Update Chrome and Chromedriver
+        run: |
+          sudo apt-get update
+          sudo apt-get --only-upgrade install google-chrome-stable
+          google-chrome --version
+      - name: Install Chromedriver
+        run: |
+          sudo apt-get install unzip
+          version=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
+          wget -qP "/tmp/" "https://chromedriver.storage.googleapis.com/${version}/chromedriver_linux64.zip"
+          sudo unzip -o /tmp/chromedriver_linux64.zip -d /usr/bin
+          export CHROMEDRIVER_PATH="usr/bin/chromedriver"
+          echo $CHROMEDRIVER_PATH
+          chromedriver -v
+      - name: Update Algolia Search Index
+        run: |
+          cd docsearch-scraper
+          ./docsearch run config.json
+        env:
+          APPLICATION_ID: ${{secrets.ALGOLIA_ID}}
+          API_KEY: ${{secrets.ALGOLIA_CREDENTIALS}}
