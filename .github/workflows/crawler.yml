@@ -38,14 +38,11 @@ jobs:
           export CHROMEDRIVER_PATH="usr/bin/chromedriver"
           echo $CHROMEDRIVER_PATH
           chromedriver -v
-      - name: Install Dependencies
+      - name: Install Dependencies and Run DocSearch
         run: |
             cd docsearch-scraper
             pipenv install
-      - name: Update Algolia Search Index
-        run: |
-          cd docsearch-scraper
-          ./docsearch run config.json
+            ./docsearch run config.json
         env:
           APPLICATION_ID: ${{secrets.ALGOLIA_ID}}
           API_KEY: ${{secrets.ALGOLIA_CREDENTIALS}}
