@@ -47,6 +47,7 @@ jobs:
         run: |
           echo APPLICATION_ID=${{secrets.ALGOLIA_ID}} >.env  # create the file and write into
           echo API_KEY=${{secrets.ALGOLIA_CREDENTIALS}} >.env
+          cp .env docsearch-scraper
       - name: Run Algolia DocSearch
         run: |
           cd docsearch-scraper
