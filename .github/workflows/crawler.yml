@@ -42,9 +42,9 @@ jobs:
         run: |
             cd docsearch-scraper
             pipenv install
+            pipenv shell
       - name: Activate virtualenv and update Algolia Search Index
         run: |
-          pipenv shell
           cd docsearch-scraper
           ./docsearch run config.json
         env:
