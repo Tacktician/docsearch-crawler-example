@@ -5,9 +5,6 @@ on:
   push:
     branches:
       - 'master'
-env:
-  APPLICATION_ID: ${{secrets.ALGOLIA_ID}}
-  API_KEY: ${{secrets.ALGOLIA_CREDENTIALS}}
 
 jobs:
   run-docsearch:
@@ -42,8 +39,15 @@ jobs:
           export CHROMEDRIVER_PATH="usr/bin/chromedriver"
           echo $CHROMEDRIVER_PATH
           chromedriver -v
-      - name: Install Dependencies and Run DocSearch
+      - name: Install Dependencies
         run: |
-            cd docsearch-scraper
-            pipenv install --deploy --dev
-            pipenv run ./docsearch run config.json
+          cd docsearch-scraper
+          pipenv install --deploy --dev
+      - name: Set Algolia .env Variables
+        run: |
+          echo APPLICATION_ID=${{secrets.ALGOLIA_ID}} >.env  # create the file and write into
+          echo API_KEY=${{secrets.ALGOLIA_CREDENTIALS}} >.env
+      - name: Run Algolia DocSearch
+        run: |
+          cd docsearch-scraper
+          pipenv run ./docsearch run config.json
