@@ -5,6 +5,10 @@ on:
   push:
     branches:
       - 'master'
+env:
+  APPLICATION_ID: ${{secrets.ALGOLIA_ID}}
+  API_KEY: ${{secrets.ALGOLIA_CREDENTIALS}}
+
 jobs:
   run-docsearch:
     runs-on: ubuntu-latest
@@ -43,6 +47,3 @@ jobs:
             cd docsearch-scraper
             pipenv install --deploy --dev
             pipenv run ./docsearch run config.json
-        env:
-          APPLICATION_ID: ${{secrets.ALGOLIA_ID}}
-          API_KEY: ${{secrets.ALGOLIA_CREDENTIALS}}
