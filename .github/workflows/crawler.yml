@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
+      - name: Download Crawler Source Code
+        run: |
+          git clone https://github.com/algolia/docsearch-scraper.git
+          cp .docsearch/config.json docsearch-scraper
       - name: Install Python
         uses: actions/setup-python@v2
         with:
@@ -20,14 +24,7 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install pipenv
-#      - name: Run Pipenv shell
-#        run: |
-#          pipenv shell
-      - name: Download Crawler Source Code
-        run: |
-          git clone https://github.com/algolia/docsearch-scraper.git
-          cp .docsearch/config.json docsearch-scraper
-      - name: Update Chrome and Chromedriver
+      - name: Update Chrome
         run: |
           sudo apt-get update
           sudo apt-get --only-upgrade install google-chrome-stable
@@ -41,6 +38,10 @@ jobs:
           export CHROMEDRIVER_PATH="usr/bin/chromedriver"
           echo $CHROMEDRIVER_PATH
           chromedriver -v
+      - name: Install Dependencies
+          run: |
+            cd docsearch-scraper
+            pipenv install
       - name: Update Algolia Search Index
         run: |
           cd docsearch-scraper
