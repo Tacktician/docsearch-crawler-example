@@ -51,5 +51,5 @@ jobs:
       - name: Run Algolia DocSearch
         run: |
           cd docsearch-scraper
-          echo -e "[scripts]\ndocsearch = './docsearch'\n" >> Pipfile
+          echo -e "[scripts]\ndocsearch = './docsearch run config.json'\n" >> Pipfile
           pipenv run docsearch
