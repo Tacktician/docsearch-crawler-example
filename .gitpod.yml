@@ -1,6 +1,17 @@
 image:
   file: .gitpod.Dockerfile
 
+ports:
+  - port: 6080
+    onOpen: ignore
+  - port: 9000-9800
+    onOpen: ignore
+  - port: 1000-5999
+    onOpen: ignore
+
 tasks:
-  - init: 'pip3 install'
-    command: pip3 install --upgrade pip
+  - init: >
+      pip install --upgrade pip && \
+      pip install pipenv && \
+      git clone https://github.com/algolia/docsearch-scraper.git && \
+      cp .docsearch/config.json docsearch-scraper
