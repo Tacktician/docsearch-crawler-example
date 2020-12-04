@@ -1,0 +1,6 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - init: 'pip3 install'
+    command: pip3 install --upgrade pip
